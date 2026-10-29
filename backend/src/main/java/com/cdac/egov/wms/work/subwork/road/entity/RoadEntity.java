@@ -17,7 +17,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
@@ -95,18 +94,17 @@ public class RoadEntity {
     @Column(name = "road_width", precision = 13, scale = 3)
     private BigDecimal width;
 
-    // Plan / Non-Plan classification (stores stable option code)
-    @NotBlank(message = "Work plan type is required.")
-    @Column(name = "work_plan_type", nullable = false, length = 50)
-    private String workPlanType;
+    @NotBlank
+    @Column(name = "cd_works", nullable = false, length = 10)
+    private String cdWorks;
 
-    // Type of CD Works (stores stable option code)
-    @NotBlank(message = "Type of CD works is required.")
-    @Column(name = "cd_work_type", nullable = false, length = 50)
-    private String cdWorkType;
+    @NotNull
+    @jakarta.validation.constraints.Min(0)
+    @Column(name = "number_of_structures", nullable = false)
+    private Integer numberOfStructures;
 
-    // Repair/Maintenance Type - applicable only to Non-Plan work
-    @Column(name = "repair_maintenance_type", length = 50)
+    @NotBlank
+    @Column(name = "repair_maintenance_type", nullable = false, length = 50)
     private String repairMaintenanceType;
 
     @PrePersist
@@ -127,23 +125,6 @@ public class RoadEntity {
 
         updatedAt = now;
         revisionTimestamp = now;
-    }
-
-    /**
-     * Repair/Maintenance Type is mandatory for Non-Plan work
-     * and must be empty for Plan work.
-     */
-    @AssertTrue(message = RoadConstant.Validation.ENTITY_REPAIR_MAINTENANCE_VALIDATION)
-    public boolean isRepairMaintenanceTypeValid() {
-        if (workPlanType == null || workPlanType.isBlank()) {
-            return true;
-        }
-
-        if (RoadConstant.WorkPlan.isNonPlan(workPlanType)) {
-            return repairMaintenanceType != null && !repairMaintenanceType.isBlank();
-        }
-
-        return repairMaintenanceType == null || repairMaintenanceType.isBlank();
     }
 
     public void setRevisionType(AuditRevisionType revisionType) {

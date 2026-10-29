@@ -26,8 +26,6 @@ public interface RoadRepository extends JpaRepository<RoadEntity, Long> {
           AND (
             r.natureOfWork = :code OR
             r.proposedRoadType = :code OR
-            r.workPlanType = :code OR
-            r.cdWorkType = :code OR
             r.repairMaintenanceType = :code
           )
     """)

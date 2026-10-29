@@ -25,6 +25,14 @@ export class Building implements OnInit {
   @ViewChild('draftDescription') private draftDescription?: ElementRef<HTMLInputElement>;
   maintenanceTypes: DropdownOption[] = [];
   buildingActivities: DropdownOption[] = [];
+  get filteredBuildingActivities(): DropdownOption[] {
+    const selected = String(this.form.controls['maintenanceType']?.value ?? '').toLowerCase();
+    if (!selected) return this.buildingActivities.filter((option) => /^(SLR|CR|SDR)\s*\d+/i.test(option.label));
+    const prefix = selected.includes('current') || selected.startsWith('cr') ? 'CR ' :
+      selected.includes('special') || selected.startsWith('slr') ? 'SLR ' :
+      selected.includes('fdr') || selected.startsWith('sdr') || selected.includes('specified') ? 'SDR ' : '';
+    return prefix ? this.buildingActivities.filter((option) => option.label.startsWith(prefix)) : this.buildingActivities;
+  }
   records: BuildingRecord[] = [];
   loading = false;
   loadingDropdowns = false;
@@ -40,6 +48,10 @@ export class Building implements OnInit {
   readonly form: FormGroup = this.createForm();
   get buildingForm(): FormGroup {
     return this.form;
+  }
+
+  onMaintenanceTypeChange(): void {
+    this.form.controls['buildingActivity'].reset('');
   }
 
   ngOnInit(): void {

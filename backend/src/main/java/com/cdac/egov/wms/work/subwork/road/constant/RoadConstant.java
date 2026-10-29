@@ -37,11 +37,7 @@ public final class RoadConstant {
 
         public static final String WIDTH_MIN = "Road width must be greater than zero.";
 
-        public static final String WORK_PLAN_TYPE_REQUIRED = "Work plan type is required.";
-        public static final String WORK_PLAN_TYPE_MAX = "Work plan type must not exceed 50 characters.";
-
-        public static final String CD_WORK_TYPE_REQUIRED = "Type of CD works is required.";
-        public static final String CD_WORK_TYPE_MAX = "Type of CD works must not exceed 50 characters.";
+        public static final String CD_WORKS_REQUIRED = "CDWorks is required.";
 
         public static final String REPAIR_MAINTENANCE_TYPE_MAX = "Repair/maintenance type must not exceed 50 characters.";
 
@@ -49,11 +45,6 @@ public final class RoadConstant {
         public static final String WORK_ID_POSITIVE = "Work ID must be positive.";
         public static final String TENANT_ID_POSITIVE = "Tenant ID must be positive.";
 
-        public static final String REPAIR_MAINTENANCE_TYPE_CONDITIONAL =
-                "Repair/Maintenance Type is required for Non-Plan work and must be empty for Plan work.";
-
-        public static final String ENTITY_REPAIR_MAINTENANCE_VALIDATION =
-                "Repair/Maintenance Type must be selected for Non-Plan work and must be empty for Plan work.";
     }
 
     // =========================================================================
@@ -95,31 +86,9 @@ public final class RoadConstant {
 
         public static final String NATURE_OF_WORK = "NATURE_OF_WORK";
         public static final String ROAD_TYPE = "ROAD_TYPE";
-        public static final String WORK_PLAN_TYPE = "WORK_PLAN_TYPE";
-        public static final String CD_WORK_TYPE = "CD_WORK_TYPE";
         public static final String REPAIR_MAINTENANCE_TYPE = "REPAIR_MAINTENANCE_TYPE";
     }
 
-    // =========================================================================
-    // WORK PLAN TYPE CODES & LABELS
-    // =========================================================================
-    public static final class WorkPlan {
-        private WorkPlan() {}
-
-        public static final String PLAN_CODE = "PLAN";
-        public static final String PLAN_LABEL = "Plan";
-
-        public static final String NON_PLAN_CODE = "NON_PLAN";
-        public static final String NON_PLAN_LABEL = "Non-Plan";
-
-        public static boolean isNonPlan(String workPlanType) {
-            if (workPlanType == null) {
-                return false;
-            }
-            String trimmed = workPlanType.trim();
-            return NON_PLAN_CODE.equalsIgnoreCase(trimmed) || NON_PLAN_LABEL.equalsIgnoreCase(trimmed);
-        }
-    }
 
     // =========================================================================
     // AUDIT REVISION TYPES
@@ -136,11 +105,7 @@ public final class RoadConstant {
     public static final String BASE_API_PATH = Api.BASE_PATH;
     public static final String CATEGORY_NATURE_OF_WORK = Category.NATURE_OF_WORK;
     public static final String CATEGORY_ROAD_TYPE = Category.ROAD_TYPE;
-    public static final String CATEGORY_WORK_PLAN_TYPE = Category.WORK_PLAN_TYPE;
-    public static final String CATEGORY_CD_WORK_TYPE = Category.CD_WORK_TYPE;
     public static final String CATEGORY_REPAIR_MAINTENANCE_TYPE = Category.REPAIR_MAINTENANCE_TYPE;
-    public static final String NON_PLAN_CODE = WorkPlan.NON_PLAN_CODE;
-    public static final String NON_PLAN_LABEL = WorkPlan.NON_PLAN_LABEL;
     public static final String MSG_LOADED = Messages.LOADED;
     public static final String MSG_CREATED = Messages.CREATED;
     public static final String MSG_UPDATED = Messages.UPDATED;

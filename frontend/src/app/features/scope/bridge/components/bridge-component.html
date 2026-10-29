@@ -14,6 +14,7 @@
               <th id="spans-heading" scope="col">No. Of Spans<span class="required">*</span></th>
               <th id="span-length-heading" scope="col">Span Length<span class="required">*</span></th>
               <th id="bridge-activity-heading" scope="col">Bridge Activity<span class="required">*</span></th>
+              <th scope="col">Repair/Maintenance Type<span class="required">*</span></th>
               <th *ngIf="showOtherActivityDescriptionColumn" id="other-activity-heading" scope="col">
                 Other Activity Description
               </th>
@@ -37,6 +38,7 @@
                   <td headers="spans-heading">{{ component.numberOfSpans ?? '—' }}</td>
                   <td headers="span-length-heading">{{ component.spanLength ?? '—' }}</td>
                   <td headers="bridge-activity-heading">{{ component.bridgeActivity }}</td>
+                  <td>{{ component.repairMaintenanceType }}</td>
                   <td *ngIf="showOtherActivityDescriptionColumn" headers="other-activity-heading">
                     {{ component.otherActivityDescription || '—' }}
                   </td>
@@ -159,6 +161,14 @@
                     <mat-error *ngIf="componentForm.controls.bridgeActivity.hasError('required')">
                       Select a bridge activity.
                     </mat-error>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                    <mat-label>Repair/Maintenance Type</mat-label>
+                    <mat-select formControlName="repairMaintenanceType" required>
+                      <mat-option *ngFor="let option of repairMaintenanceTypes" [value]="option.code || option.label">{{ option.label }}</mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </td>
                 <td *ngIf="showOtherActivityDescriptionColumn" headers="other-activity-heading">
@@ -309,6 +319,10 @@
                   matTooltipClass="component-field-tooltip" />
               </mat-form-field>
             </div>
+          </div>
+          <div class="component-search-field">
+            <label>Repair/Maintenance Type</label>
+            <div class="component-search-controls"><mat-form-field appearance="outline" class="component-search-input"><input matInput readonly [value]="component.repairMaintenanceType" /></mat-form-field></div>
           </div>
 
           <div class="component-search-field"

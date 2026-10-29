@@ -48,8 +48,6 @@ public final class DropdownConstant {
 
         public static final String ROAD_TYPE = "ROAD_TYPE";
         public static final String NATURE_OF_WORK = "NATURE_OF_WORK";
-        public static final String WORK_PLAN_TYPE = "WORK_PLAN_TYPE";
-        public static final String CD_WORK_TYPE = "CD_WORK_TYPE";
         public static final String REPAIR_MAINTENANCE_TYPE = "REPAIR_MAINTENANCE_TYPE";
         public static final String BRIDGE_ACTIVITY = "BRIDGE_ACTIVITY";
     }

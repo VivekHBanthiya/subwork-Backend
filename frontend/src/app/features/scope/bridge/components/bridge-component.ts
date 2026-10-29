@@ -45,6 +45,7 @@ export class BridgeComponent implements OnInit {
   bridgeComponents: BridgeModel[] = [];
   bridgeActivities: string[] = [];
   bridgeActivityOptions: DropdownOption[] = [];
+  repairMaintenanceTypes: DropdownOption[] = [];
   componentToEdit: BridgeModel | null = null;
   componentToDelete: BridgeModel | null = null;
   saving = false;
@@ -77,6 +78,7 @@ export class BridgeComponent implements OnInit {
     ]),
     spanLength: new FormControl<number | null>(null, [Validators.required, Validators.min(BRIDGE_VALIDATION.MIN_SPAN_LENGTH)]),
     bridgeActivity: ['', Validators.required],
+    repairMaintenanceType: ['', Validators.required],
     otherActivityDescription: new FormControl('', {
       nonNullable: true,
       validators: Validators.maxLength(BRIDGE_VALIDATION.MAX_OTHER_ACTIVITY_DESC),
@@ -193,6 +195,7 @@ export class BridgeComponent implements OnInit {
       numberOfSpans: component.numberOfSpans,
       spanLength: component.spanLength,
       bridgeActivity: this.optionValue(this.bridgeActivityOptions, component.bridgeActivity),
+      repairMaintenanceType: this.optionValue(this.repairMaintenanceTypes, component.repairMaintenanceType),
       otherActivityDescription: component.otherActivityDescription ?? '',
     });
     this.onBridgeActivityChange(this.componentForm.controls.bridgeActivity.value);
@@ -369,11 +372,15 @@ export class BridgeComponent implements OnInit {
         });
       },
     });
+    this.bridgeService.getRepairMaintenanceTypes().subscribe({ next: (options) => { this.repairMaintenanceTypes = options; this.cdr.markForCheck(); } });
   }
 
   private optionValue(options: DropdownOption[], labelOrCode: string): string {
     if (!labelOrCode) {
       return '';
+    }
+    if (labelOrCode.toLowerCase() === 'current repair/amc') {
+      return options.find((option) => option.label.toLowerCase() === 'current repair')?.code ?? 'CURRENT_REPAIR';
     }
     const found = options.find(
       (opt) =>

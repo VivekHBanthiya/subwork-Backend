@@ -15,7 +15,6 @@ import {
   RoadService,
 } from '../services/road.service';
 import {
-  isRoadNonPlan,
   ROAD_AUDIT,
   ROAD_MESSAGES,
   ROAD_UI,
@@ -53,8 +52,7 @@ export class RoadComponent implements OnInit {
   // Option lists
   natureOfWorks: RoadEnumOption[] = [];
   proposedRoadTypes: RoadEnumOption[] = [];
-  workPlanTypes: RoadEnumOption[] = [];
-  cdWorkTypes: RoadEnumOption[] = [];
+  cdWorksOptions: RoadEnumOption[] = [{ label: 'Yes', value: 'YES' }, { label: 'No', value: 'NO' }];
   repairMaintenanceTypes: RoadEnumOption[] = [];
 
   // Form
@@ -66,9 +64,9 @@ export class RoadComponent implements OnInit {
       Validators.min(ROAD_VALIDATION.MIN_LENGTH),
     ]),
     width: new FormControl<number | null>(null, [Validators.required, Validators.min(ROAD_VALIDATION.MIN_WIDTH)]),
-    workPlanType: ['', Validators.required],
-    cdWorkType: ['', Validators.required],
-    repairMaintenanceType: [''],
+    cdWorks: ['', Validators.required],
+    numberOfStructures: new FormControl<number | null>(null, [Validators.required, Validators.min(0), Validators.pattern(/^\d+$/)]),
+    repairMaintenanceType: ['', Validators.required],
   });
 
   // Dialogs
@@ -91,16 +89,12 @@ export class RoadComponent implements OnInit {
       components: this.roadService.getComponents(),
       natureOfWorks: this.roadService.getNatureOfWorks(),
       proposedRoadTypes: this.roadService.getProposedRoadTypes(),
-      workPlanTypes: this.roadService.getWorkPlanTypes(),
-      cdWorkTypes: this.roadService.getCdWorkTypes(),
       repairMaintenanceTypes: this.roadService.getRepairMaintenanceTypes(),
     }).subscribe({
       next: (result) => {
         this.roadComponents = this.sortById(result.components);
         this.natureOfWorks = result.natureOfWorks;
         this.proposedRoadTypes = result.proposedRoadTypes;
-        this.workPlanTypes = result.workPlanTypes;
-        this.cdWorkTypes = result.cdWorkTypes;
         this.repairMaintenanceTypes = result.repairMaintenanceTypes;
         this.loadAuditDetails(this.roadComponents);
         this.cdr.markForCheck();
@@ -151,34 +145,11 @@ export class RoadComponent implements OnInit {
     return editingIndex >= 0 ? editingIndex + 1 : this.roadComponents.length + 1;
   }
 
-  get showRepairMaintenanceColumn(): boolean {
-    const currentPlan = this.componentForm.controls.workPlanType.value;
-    return (
-      isRoadNonPlan(currentPlan) ||
-      isRoadNonPlan(this.componentToEdit?.workPlanType) ||
-      this.roadComponents.some((component) => isRoadNonPlan(component.workPlanType))
-    );
-  }
-
-  onWorkPlanChange(workPlanType: string): void {
-    const isNonPlan = isRoadNonPlan(workPlanType);
-    const repairMaintenanceType = this.componentForm.controls.repairMaintenanceType;
-    if (isNonPlan) {
-      repairMaintenanceType.setValidators(Validators.required);
-    } else {
-      repairMaintenanceType.clearValidators();
-      repairMaintenanceType.setValue('');
-    }
-    repairMaintenanceType.updateValueAndValidity();
-  }
-
   canSave(): boolean {
     return (
       !this.saving &&
       this.natureOfWorks.length > 0 &&
       this.proposedRoadTypes.length > 0 &&
-      this.workPlanTypes.length > 0 &&
-      this.cdWorkTypes.length > 0 &&
       this.repairMaintenanceTypes.length > 0
     );
   }
@@ -194,10 +165,8 @@ export class RoadComponent implements OnInit {
 
   saveComponent(formValue: RoadComponentFormValue): void {
     const editing = this.componentToEdit;
-    const isNonPlan = isRoadNonPlan(formValue.workPlanType);
     const request: RoadComponentRequest = {
       ...formValue,
-      repairMaintenanceType: isNonPlan ? formValue.repairMaintenanceType : null,
       officeId: editing?.officeId ?? null,
       workId: editing?.workId ?? null,
     };
@@ -239,24 +208,21 @@ export class RoadComponent implements OnInit {
       proposedRoadType: this.optionValue(this.proposedRoadTypes, component.proposedRoadType),
       length: component.length,
       width: component.width,
-      workPlanType: this.optionValue(this.workPlanTypes, component.workPlanType),
-      cdWorkType: this.optionValue(this.cdWorkTypes, component.cdWorkType),
+      cdWorks: component.cdWorks,
+      numberOfStructures: component.numberOfStructures,
       repairMaintenanceType: component.repairMaintenanceType
         ? this.optionValue(this.repairMaintenanceTypes, component.repairMaintenanceType)
         : '',
     });
-    this.onWorkPlanChange(this.componentForm.controls.workPlanType.value);
   }
 
   cancelEdit(): void {
     this.componentToEdit = null;
     this.componentForm.reset();
-    this.onWorkPlanChange('');
   }
 
   resetForm(): void {
     this.componentForm.reset();
-    this.onWorkPlanChange('');
   }
 
   promptDelete(component: RoadModel): void {
@@ -363,6 +329,9 @@ export class RoadComponent implements OnInit {
   ): string {
     if (!labelOrCode) {
       return '';
+    }
+    if (labelOrCode.toLowerCase() === 'current repair/amc') {
+      return options.find((option) => option.label.toLowerCase() === 'current repair')?.value ?? 'CURRENT_REPAIR';
     }
     const found = options.find(
       (option) =>

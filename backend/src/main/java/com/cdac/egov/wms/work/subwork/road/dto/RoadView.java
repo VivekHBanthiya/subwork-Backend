@@ -15,8 +15,8 @@ public class RoadView {
     private final String proposedRoadType;
     private final BigDecimal length;
     private final BigDecimal width;
-    private final String workPlanType;
-    private final String cdWorkType;
+    private final String cdWorks;
+    private final Integer numberOfStructures;
     private final String repairMaintenanceType;
     private final Integer officeId;
     private final Integer workId;

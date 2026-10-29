@@ -10,11 +10,9 @@
               <th id="proposed-road-heading" scope="col">Proposed Road Type<span class="required">*</span></th>
               <th id="road-length-heading" scope="col">Road Length<span class="required">*</span></th>
               <th id="road-width-heading" scope="col">Road Width<span class="required">*</span></th>
-              <th id="work-plan-heading" scope="col">Work Plan Type<span class="required">*</span></th>
-              <th id="cd-work-heading" scope="col">CD Work Type<span class="required">*</span></th>
-              <th *ngIf="showRepairMaintenanceColumn" id="repair-maintenance-heading" scope="col">
-                Repair/Maintenance Type
-              </th>
+              <th id="cd-works-heading" scope="col">CDWorks<span class="required">*</span></th>
+              <th id="structures-heading" scope="col">No. of Structure<span class="required">*</span></th>
+              <th id="repair-maintenance-heading" scope="col">Repair/Maintenance Type<span class="required">*</span></th>
               <th id="road-audit-heading" scope="col">Audit Details</th>
               <th id="road-actions-heading" scope="col">Actions</th>
             </tr>
@@ -44,13 +42,9 @@
                   <td headers="road-width-heading">
                     {{ component.width ?? '—' }}
                   </td>
-                  <td headers="work-plan-heading">
-                    {{ component.workPlanType }}
-                  </td>
-                  <td headers="cd-work-heading">
-                    {{ component.cdWorkType }}
-                  </td>
-                  <td *ngIf="showRepairMaintenanceColumn" headers="repair-maintenance-heading">
+                  <td headers="cd-works-heading">{{ component.cdWorks }}</td>
+                  <td headers="structures-heading">{{ component.numberOfStructures }}</td>
+                  <td headers="repair-maintenance-heading">
                     {{ component.repairMaintenanceType ?? '—' }}
                   </td>
                   <td headers="road-audit-heading" class="component-audit-cell" style="text-align: center;">
@@ -140,39 +134,26 @@
                   </mat-form-field>
                 </td>
 
-                <td headers="work-plan-heading">
+                <td headers="cd-works-heading">
                   <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                    <mat-label>Work Plan Type</mat-label>
-                    <mat-select formControlName="workPlanType" required
-                      (selectionChange)="onWorkPlanChange($event.value)">
-                      <mat-option *ngFor="let opt of workPlanTypes" [value]="opt.value">
+                    <mat-label>CDWorks</mat-label>
+                    <mat-select formControlName="cdWorks" required>
+                      <mat-option *ngFor="let opt of cdWorksOptions" [value]="opt.value">
                         {{ opt.label }}
                       </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="componentForm.controls.workPlanType.hasError('required')">
-                      Select a work plan type.
-                    </mat-error>
                   </mat-form-field>
                 </td>
 
-                <td headers="cd-work-heading">
+                <td headers="structures-heading">
                   <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                    <mat-label>CD Work Type</mat-label>
-                    <mat-select formControlName="cdWorkType" required>
-                      <mat-option *ngFor="let opt of cdWorkTypes" [value]="opt.value">
-                        {{ opt.label }}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="componentForm.controls.cdWorkType.hasError('required')">
-                      Select a CD work type.
-                    </mat-error>
+                    <mat-label>No. of Structure</mat-label>
+                    <input matInput type="number" min="0" step="1" formControlName="numberOfStructures" required />
                   </mat-form-field>
                 </td>
 
-                <td *ngIf="showRepairMaintenanceColumn" headers="repair-maintenance-heading">
-                  <mat-form-field
-                    *ngIf="componentForm.controls.workPlanType.value === 'NON_PLAN' || componentForm.controls.workPlanType.value === 'Non-Plan'"
-                    appearance="outline" subscriptSizing="dynamic">
+                <td headers="repair-maintenance-heading">
+                  <mat-form-field appearance="outline" subscriptSizing="dynamic">
                     <mat-label>Repair/Maintenance Type</mat-label>
                     <mat-select formControlName="repairMaintenanceType" required>
                       <mat-option *ngFor="let opt of repairMaintenanceTypes" [value]="opt.value">
@@ -287,20 +268,20 @@
           </div>
 
           <div class="component-search-field">
-            <label>Work Plan Type</label>
+            <label>CDWorks</label>
             <div class="component-search-controls">
               <mat-form-field appearance="outline" class="component-search-input">
-                <input matInput readonly [value]="component.workPlanType" [matTooltip]="component.workPlanType || '—'"
+                <input matInput readonly [value]="component.cdWorks" [matTooltip]="component.cdWorks || '—'"
                   matTooltipPosition="above" matTooltipClass="component-field-tooltip" />
               </mat-form-field>
             </div>
           </div>
 
           <div class="component-search-field">
-            <label>CD Work Type</label>
+            <label>No. of Structure</label>
             <div class="component-search-controls">
               <mat-form-field appearance="outline" class="component-search-input">
-                <input matInput readonly [value]="component.cdWorkType" [matTooltip]="component.cdWorkType || '—'"
+                <input matInput readonly [value]="component.numberOfStructures" [matTooltip]="'' + component.numberOfStructures"
                   matTooltipPosition="above" matTooltipClass="component-field-tooltip" />
               </mat-form-field>
             </div>

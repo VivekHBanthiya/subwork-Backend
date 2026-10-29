@@ -18,6 +18,7 @@ public class BridgeView {
 	private final Integer numberOfSpans;
 	private final BigDecimal spanLength;
 	private final String bridgeActivity;
+	private final String repairMaintenanceType;
 	private final String otherActivityDescription;
 	private final Integer officeId;
 	private final Integer workId;

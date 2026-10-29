@@ -105,6 +105,10 @@ public class BridgeEntity {
 	@Column(name = "bridge_activity", nullable = false, length = BridgeConstant.Validation.BRIDGE_ACTIVITY_MAX_LENGTH)
 	private String bridgeActivity;
 
+	@NotBlank
+	@Column(name = "repair_maintenance_type", nullable = false, length = 50)
+	private String repairMaintenanceType;
+
 	@Size(max = BridgeConstant.Validation.OTHER_ACTIVITY_DESC_MAX_LENGTH)
 	@Column(length = BridgeConstant.Validation.OTHER_ACTIVITY_DESC_MAX_LENGTH)
 	private String otherActivityDescription;

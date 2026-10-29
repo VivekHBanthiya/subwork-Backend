@@ -53,12 +53,6 @@ public class DropdownOptionService {
         if ("NATURE_OF_WORKS".equals(clean)) {
             return DropdownConstant.Categories.NATURE_OF_WORK;
         }
-        if ("WORK_PLAN_TYPES".equals(clean)) {
-            return DropdownConstant.Categories.WORK_PLAN_TYPE;
-        }
-        if ("CD_WORK_TYPES".equals(clean)) {
-            return DropdownConstant.Categories.CD_WORK_TYPE;
-        }
         if ("REPAIR_MAINTENANCE_TYPES".equals(clean)) {
             return DropdownConstant.Categories.REPAIR_MAINTENANCE_TYPE;
         }

@@ -28,11 +28,7 @@ export const ROAD_MESSAGES = {
   LENGTH_REQUIRED: 'Road length is required.',
   LENGTH_MIN: 'Road length must be greater than zero.',
   WIDTH_MIN: 'Road width must be greater than zero.',
-  WORK_PLAN_TYPE_REQUIRED: 'Work plan type is required.',
-  WORK_PLAN_TYPE_MAX: 'Work plan type must not exceed 50 characters.',
-  CD_WORK_TYPE_REQUIRED: 'Type of CD works is required.',
-  CD_WORK_TYPE_MAX: 'Type of CD works must not exceed 50 characters.',
-  REPAIR_MAINTENANCE_TYPE_REQUIRED: 'Repair/Maintenance Type is required for Non-Plan work.',
+  REPAIR_MAINTENANCE_TYPE_REQUIRED: 'Repair/Maintenance Type is required.',
   REPAIR_MAINTENANCE_TYPE_MAX: 'Repair/maintenance type must not exceed 50 characters.',
 
   // Feedback notifications
@@ -51,23 +47,8 @@ export const ROAD_MESSAGES = {
 export const ROAD_CATEGORIES = {
   NATURE_OF_WORK: 'NATURE_OF_WORK',
   ROAD_TYPE: 'ROAD_TYPE',
-  WORK_PLAN_TYPE: 'WORK_PLAN_TYPE',
-  CD_WORK_TYPE: 'CD_WORK_TYPE',
   REPAIR_MAINTENANCE_TYPE: 'REPAIR_MAINTENANCE_TYPE',
 } as const;
-
-export const ROAD_WORK_PLAN_TYPES = {
-  PLAN: 'Plan',
-  PLAN_CODE: 'PLAN',
-  NON_PLAN: 'Non-Plan',
-  NON_PLAN_CODE: 'NON_PLAN',
-} as const;
-
-export function isRoadNonPlan(workPlanType: string | null | undefined): boolean {
-  if (!workPlanType) return false;
-  const trimmed = workPlanType.trim();
-  return trimmed === ROAD_WORK_PLAN_TYPES.NON_PLAN || trimmed === ROAD_WORK_PLAN_TYPES.NON_PLAN_CODE;
-}
 
 // =========================================================================
 // AUDIT TABLE DEFAULTS

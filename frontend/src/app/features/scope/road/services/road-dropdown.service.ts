@@ -23,14 +23,6 @@ export class RoadDropdownService {
     return this.getOptions(ROAD_CATEGORIES.ROAD_TYPE, forceRefresh);
   }
 
-  getWorkPlanTypes(forceRefresh = false): Observable<DropdownOption[]> {
-    return this.getOptions(ROAD_CATEGORIES.WORK_PLAN_TYPE, forceRefresh);
-  }
-
-  getCdWorkTypes(forceRefresh = false): Observable<DropdownOption[]> {
-    return this.getOptions(ROAD_CATEGORIES.CD_WORK_TYPE, forceRefresh);
-  }
-
   getRepairMaintenanceTypes(forceRefresh = false): Observable<DropdownOption[]> {
     return this.getOptions(ROAD_CATEGORIES.REPAIR_MAINTENANCE_TYPE, forceRefresh);
   }

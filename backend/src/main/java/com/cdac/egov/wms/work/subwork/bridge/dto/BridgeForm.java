@@ -33,7 +33,7 @@ public class BridgeForm {
 			Integer officeId,
 			Integer workId) {
 		this(riverNallahBarrier, width, length, approvalRoad, numberOfSpans, spanLength,
-				bridgeActivity, otherActivityDescription, officeId, workId, null);
+				bridgeActivity, null, otherActivityDescription, officeId, workId, null);
 	}
 
 
@@ -63,6 +63,10 @@ public class BridgeForm {
 	@NotBlank(message = BridgeConstant.Validation.BRIDGE_ACTIVITY_REQUIRED)
 	@Size(max = BridgeConstant.Validation.BRIDGE_ACTIVITY_MAX_LENGTH)
 	private String bridgeActivity;
+
+	@NotBlank
+	@Size(max = 50)
+	private String repairMaintenanceType;
 
 	@Size(max = BridgeConstant.Validation.OTHER_ACTIVITY_DESC_MAX_LENGTH)
 	private String otherActivityDescription;

@@ -21,8 +21,8 @@ export interface RoadModel {
   proposedRoadType: string;
   length: number | null;
   width: number | null;
-  workPlanType: string;
-  cdWorkType: string;
+  cdWorks: string;
+  numberOfStructures: number;
   repairMaintenanceType: string | null;
   officeId: number | null;
   workId: number | null;
@@ -41,8 +41,8 @@ export interface RoadComponentFormValue {
   proposedRoadType: string;
   length: number | null;
   width: number | null;
-  workPlanType: string;
-  cdWorkType: string;
+  cdWorks: string;
+  numberOfStructures: number | null;
   repairMaintenanceType: string | null;
 }
 
@@ -81,14 +81,6 @@ export class RoadService {
 
   getProposedRoadTypes(): Observable<RoadEnumOption[]> {
     return this.getOptionsByCategory(ROAD_CATEGORIES.ROAD_TYPE);
-  }
-
-  getCdWorkTypes(): Observable<RoadEnumOption[]> {
-    return this.getOptionsByCategory(ROAD_CATEGORIES.CD_WORK_TYPE);
-  }
-
-  getWorkPlanTypes(): Observable<RoadEnumOption[]> {
-    return this.getOptionsByCategory(ROAD_CATEGORIES.WORK_PLAN_TYPE);
   }
 
   getRepairMaintenanceTypes(): Observable<RoadEnumOption[]> {

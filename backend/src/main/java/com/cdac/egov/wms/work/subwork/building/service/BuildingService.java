@@ -125,6 +125,13 @@ public class BuildingService {
                 .stream()
                 .anyMatch(o -> o.getLabel().equals(request.buildingActivity()));
 
+        String maintenance = request.maintenanceType().toLowerCase();
+        String expectedPrefix = maintenance.contains("current") || maintenance.startsWith("cr") ? "CR" :
+                maintenance.contains("special") || maintenance.startsWith("slr") ? "SLR" :
+                maintenance.contains("fdr") || maintenance.startsWith("sdr") || maintenance.contains("specified") ? "SDR" : "";
+        activityValid = activityValid && !expectedPrefix.isEmpty()
+                && request.buildingActivity().toUpperCase().startsWith(expectedPrefix);
+
         if (!maintenanceValid || !activityValid) {
             throw new IllegalArgumentException(
                     "Invalid maintenance type or building activity");

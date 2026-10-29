@@ -44,8 +44,6 @@ export class DropdownService {
       return 'ROAD_TYPE';
     }
     if (clean === 'NATURE_OF_WORKS') return 'NATURE_OF_WORK';
-    if (clean === 'WORK_PLAN_TYPES') return 'WORK_PLAN_TYPE';
-    if (clean === 'CD_WORK_TYPES') return 'CD_WORK_TYPE';
     if (clean === 'REPAIR_MAINTENANCE_TYPES') return 'REPAIR_MAINTENANCE_TYPE';
     if (clean === 'BRIDGE_ACTIVITIES' || clean === 'ACTIVITIES') return 'BRIDGE_ACTIVITY';
     return clean;

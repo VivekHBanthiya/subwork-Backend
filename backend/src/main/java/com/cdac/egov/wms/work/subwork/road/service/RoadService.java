@@ -128,22 +128,8 @@ public class RoadService {
     }
 
     @Transactional(readOnly = true)
-    public List<String> findCdWorkTypes() {
-        return dropdownService.findActiveByCategory(RoadConstant.Category.CD_WORK_TYPE).stream()
-                .map(DropdownOptionDto::label)
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
     public List<String> findRepairMaintenanceTypes() {
         return dropdownService.findActiveByCategory(RoadConstant.Category.REPAIR_MAINTENANCE_TYPE).stream()
-                .map(DropdownOptionDto::label)
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<String> findWorkPlanTypes() {
-        return dropdownService.findActiveByCategory(RoadConstant.Category.WORK_PLAN_TYPE).stream()
                 .map(DropdownOptionDto::label)
                 .toList();
     }
@@ -159,22 +145,18 @@ public class RoadService {
         // Validate submitted codes against the database
         dropdownService.validateActiveCode(RoadConstant.Category.NATURE_OF_WORK, form.getNatureOfWork());
         dropdownService.validateActiveCode(RoadConstant.Category.ROAD_TYPE, form.getProposedRoadType());
-        dropdownService.validateActiveCode(RoadConstant.Category.WORK_PLAN_TYPE, form.getWorkPlanType());
-        dropdownService.validateActiveCode(RoadConstant.Category.CD_WORK_TYPE, form.getCdWorkType());
-
-        boolean isNonPlan = RoadConstant.WorkPlan.isNonPlan(form.getWorkPlanType());
-
-        if (isNonPlan && form.getRepairMaintenanceType() != null && !form.getRepairMaintenanceType().isBlank()) {
-            dropdownService.validateActiveCode(RoadConstant.Category.REPAIR_MAINTENANCE_TYPE, form.getRepairMaintenanceType());
+        if (!"YES".equals(form.getCdWorks()) && !"NO".equals(form.getCdWorks())) {
+            throw new IllegalArgumentException("CDWorks must be Yes or No.");
         }
+        dropdownService.validateActiveCode(RoadConstant.Category.REPAIR_MAINTENANCE_TYPE, form.getRepairMaintenanceType());
 
         entity.setNatureOfWork(form.getNatureOfWork().trim());
         entity.setProposedRoadType(form.getProposedRoadType().trim());
         entity.setLength(form.getLength());
         entity.setWidth(form.getWidth());
-        entity.setWorkPlanType(form.getWorkPlanType().trim());
-        entity.setCdWorkType(form.getCdWorkType().trim());
-        entity.setRepairMaintenanceType(isNonPlan && form.getRepairMaintenanceType() != null ? form.getRepairMaintenanceType().trim() : null);
+        entity.setCdWorks(form.getCdWorks().trim());
+        entity.setNumberOfStructures(form.getNumberOfStructures());
+        entity.setRepairMaintenanceType(form.getRepairMaintenanceType().trim());
 
         entity.setOfficeId(form.getOfficeId());
         entity.setWorkId(form.getWorkId());
@@ -203,8 +185,8 @@ public class RoadService {
                 dropdownService.getLabel(RoadConstant.Category.ROAD_TYPE, entity.getProposedRoadType()),
                 entity.getLength(),
                 entity.getWidth(),
-                dropdownService.getLabel(RoadConstant.Category.WORK_PLAN_TYPE, entity.getWorkPlanType()),
-                dropdownService.getLabel(RoadConstant.Category.CD_WORK_TYPE, entity.getCdWorkType()),
+                "YES".equals(entity.getCdWorks()) ? "Yes" : "No",
+                entity.getNumberOfStructures(),
                 dropdownService.getLabel(RoadConstant.Category.REPAIR_MAINTENANCE_TYPE, entity.getRepairMaintenanceType()),
                 entity.getOfficeId(),
                 entity.getWorkId(),

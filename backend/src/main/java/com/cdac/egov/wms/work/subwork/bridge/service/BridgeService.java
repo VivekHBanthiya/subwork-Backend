@@ -92,6 +92,7 @@ public class BridgeService {
 
 	private void applyForm(BridgeEntity entity, BridgeForm form) {
 		dropdownService.validateActiveCode(BridgeConstant.Activity.CATEGORY_BRIDGE_ACTIVITY, form.getBridgeActivity());
+		dropdownService.validateActiveCode("REPAIR_MAINTENANCE_TYPE", form.getRepairMaintenanceType());
 
 		entity.setRiverNallahBarrier(form.getRiverNallahBarrier().trim());
 		entity.setWidth(form.getWidth());
@@ -100,6 +101,7 @@ public class BridgeService {
 		entity.setNumberOfSpans(form.getNumberOfSpans());
 		entity.setSpanLength(form.getSpanLength());
 		entity.setBridgeActivity(form.getBridgeActivity().trim());
+		entity.setRepairMaintenanceType(form.getRepairMaintenanceType().trim());
 
 		boolean isOther = BridgeConstant.Activity.isOtherActivity(form.getBridgeActivity());
 
@@ -147,6 +149,7 @@ public class BridgeService {
 				entity.getNumberOfSpans(),
 				entity.getSpanLength(),
 				dropdownService.getLabel(BridgeConstant.Activity.CATEGORY_BRIDGE_ACTIVITY, entity.getBridgeActivity()),
+				dropdownService.getLabel("REPAIR_MAINTENANCE_TYPE", entity.getRepairMaintenanceType()),
 				entity.getOtherActivityDescription(),
 				entity.getOfficeId(),
 				entity.getWorkId(),

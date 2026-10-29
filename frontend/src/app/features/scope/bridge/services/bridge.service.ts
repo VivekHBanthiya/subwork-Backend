@@ -24,6 +24,7 @@ export interface BridgeModel {
   numberOfSpans: number | null;
   spanLength: number | null;
   bridgeActivity: string;
+  repairMaintenanceType: string;
   otherActivityDescription: string;
   officeId: number | null;
   workId: number | null;
@@ -72,6 +73,10 @@ export class BridgeService {
 
   getBridgeActivityOptions(): Observable<DropdownOption[]> {
     return this.dropdownOptionService.getOptions(BRIDGE_CATEGORIES.BRIDGE_ACTIVITY);
+  }
+
+  getRepairMaintenanceTypes(): Observable<DropdownOption[]> {
+    return this.dropdownOptionService.getOptions('REPAIR_MAINTENANCE_TYPE');
   }
 
   createComponent(component: BridgeComponentRequest): Observable<BridgeModel> {

@@ -51,22 +51,8 @@ public class DropdownDataSeederConfig {
         new SeedItem("NATURE_OF_WORK", "IMPROVEMENT", "Improvement", 3),
         new SeedItem("NATURE_OF_WORK", "RECONSTRUCTION", "Reconstruction", 4),
 
-        // WORK_PLAN_TYPE
-        new SeedItem("WORK_PLAN_TYPE", "PLAN", "Plan", 1),
-        new SeedItem("WORK_PLAN_TYPE", "NON_PLAN", "Non-Plan", 2),
-
-        // CD_WORK_TYPE
-        new SeedItem("CD_WORK_TYPE", "MINOR_BRIDGE", "Minor Bridge", 1),
-        new SeedItem("CD_WORK_TYPE", "DD_DHAPA_DRAIN", "DD - Dhapa Drain (In Nos)", 2),
-        new SeedItem("CD_WORK_TYPE", "BC_BOX_CULVERT", "BC - Box Culvert (In Nos)", 3),
-        new SeedItem("CD_WORK_TYPE", "SD_SLAB_DRAIN", "SD - Slab Drain (In Nos)", 4),
-        new SeedItem("CD_WORK_TYPE", "ARCH_CULVERT", "Arch Culvert (In Nos)", 5),
-        new SeedItem("CD_WORK_TYPE", "HP_HARD_PASSAGE", "HP - Hard Passage (In Nos)", 6),
-        new SeedItem("CD_WORK_TYPE", "HPC_HUME_PIPE_CULVERT", "HPC - Hume Pipe Culvert (In Nos)", 7),
-        new SeedItem("CD_WORK_TYPE", "VC_VENTED_CAUSEWAY", "VC - Vented Causeway (In Nos)", 8),
-
         // REPAIR_MAINTENANCE_TYPE
-        new SeedItem("REPAIR_MAINTENANCE_TYPE", "CURRENT_REPAIR_AMC", "Current Repair/AMC", 1),
+        new SeedItem("REPAIR_MAINTENANCE_TYPE", "CURRENT_REPAIR", "Current repair", 1),
         new SeedItem("REPAIR_MAINTENANCE_TYPE", "SPECIAL_REPAIR", "Special Repair", 2),
         new SeedItem("REPAIR_MAINTENANCE_TYPE", "FDR", "FDR", 3),
 
@@ -91,6 +77,14 @@ public class DropdownDataSeederConfig {
     public int seedDefaults(DropdownOptionRepository repository) {
         int inserted = 0;
         Instant now = Instant.now();
+
+        // Retire the previous label/code so Road and Bridge expose one Current repair choice.
+        repository.findByCategoryAndCode("REPAIR_MAINTENANCE_TYPE", "CURRENT_REPAIR_AMC")
+                .filter(option -> Boolean.TRUE.equals(option.getActive()))
+                .ifPresent(option -> {
+                    option.setActive(false);
+                    repository.save(option);
+                });
 
         for (SeedItem item : DEFAULT_OPTIONS) {
             if (!repository.existsByCategoryAndCode(item.category(), item.code())) {

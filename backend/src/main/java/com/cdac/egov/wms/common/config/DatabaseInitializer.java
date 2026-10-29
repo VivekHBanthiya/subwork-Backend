@@ -32,10 +32,26 @@ public class DatabaseInitializer {
             addOption(dropdownRepository, "MAINTENANCE_TYPE",
                     "SDR (Specified Repair)");
 
-            addOption(dropdownRepository, "BUILDING_ACTIVITY",
-                    "New Construction");
-            addOption(dropdownRepository, "BUILDING_ACTIVITY",
-                    "Other Activities From PMIS");
+            String[] buildingActivities = {
+                "SLR 1 - Partial reroofing", "SLR 2 - Distempering and colouring",
+                "SLR 3 - Replacement of water supply and sanitary pipes", "SLR 4 - Periodical Oil painting",
+                "SLR 5 - Replacement of Electrical wiring", "SLR 6 - Plaster of walls",
+                "SLR 7 - Misc. Item of special repair in case of any damage etc.",
+                "CR 1- Repairs to fixtures and fastening of door & window", "CR 2 - Repairs to frames and shutter of door & window",
+                "CR 3 - Repairs to sanitary and water supply fitting", "CR 4 - Colour,Washing, distempering & patch painting of walls and doors & windows",
+                "CR 5 - Repairs to floors", "CR 6 - Repairs to plaster, pointing",
+                "CR 7 - Repairs to roof such as turning tiles replacement of tiles attending to leakages water proofing course etc.",
+                "CR 8 - Monsoon protection such as bamboo matting etc.", "CR 9 - Maintenance of Electrical fitting & fixtures",
+                "CR 10 - Misc. item of similar nature", "SDR 1 - Renewal of old dilapidated roof with M. Tiles, A. C. Sheet etc.",
+                "SDR 2 - Renewal of decayed doors and windows.", "SDR 3 - Replumbing to reduce leakages from water pipes and down take pipes.",
+                "SDR 4 - Guniting and corrosion protection.", "SDR 5 - Renewal of electric wiring which has outlived its life. (Wherever guniting is done, necessary renewal of electrical wiring should be considered).",
+                "SDR 6 - Where external walls are wet due to leakags etc., the replastering work can be undertaken, if that is the cause of leakage.",
+                "SDR 7 - Water proofing to stop leakage and dampness.", "SDR 8 - Plinth protection work, if the building is situated on B. C. Soil strats.",
+                "SDR 9 - Drainage improvements including provision of gutters around the plinth where required.",
+                "SDR 10 - Reconstruction of old cracked/decayed brick pillars/Walls.", "SDR 11 - Work of replacement of weather sheds.",
+                "SDR 12 - Renewal of damaged flooring"
+            };
+            for (String activity : buildingActivities) addOption(dropdownRepository, "BUILDING_ACTIVITY", activity);
 
             addUnits(unitRepository);
         };
