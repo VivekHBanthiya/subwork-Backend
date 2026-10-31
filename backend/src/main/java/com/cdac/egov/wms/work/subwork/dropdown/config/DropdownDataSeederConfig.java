@@ -16,6 +16,10 @@ import com.cdac.egov.wms.work.subwork.dropdown.repository.DropdownOptionReposito
 
 import jakarta.annotation.PostConstruct;
 
+
+/*------------------------------------------------------- */
+/* Dropdown Data Seeder for Roads and Bridge Configuration */
+/*------------------------------------------------------- */
 @Configuration
 public class DropdownDataSeederConfig {
 
@@ -57,9 +61,17 @@ public class DropdownDataSeederConfig {
         new SeedItem("REPAIR_MAINTENANCE_TYPE", "FDR", "FDR", 3),
 
         // BRIDGE_ACTIVITY
-        new SeedItem("BRIDGE_ACTIVITY", "REPAIR_TO_BRIDGE", "Repair-to-Bridge", 1),
-        new SeedItem("BRIDGE_ACTIVITY", "NEW_CONSTRUCTION", "New Construction", 2),
-        new SeedItem("BRIDGE_ACTIVITY", "OTHER_ACTIVITY", "Other Activity", 3)
+        new SeedItem("BRIDGE_ACTIVITY", "FOUNDATION", "Foundation", 1),
+        new SeedItem("BRIDGE_ACTIVITY", "ABUTMENT", "Abutment", 2),
+        new SeedItem("BRIDGE_ACTIVITY", "PIERS", "Piers", 3),
+        new SeedItem("BRIDGE_ACTIVITY", "SUPER_STRUCTURES", "Super Structures", 4),
+        new SeedItem("BRIDGE_ACTIVITY", "BEARING", "Bearing", 5),
+        new SeedItem("BRIDGE_ACTIVITY", "EXPANSION_JOINTS", "Expansion Joints", 6),
+        new SeedItem("BRIDGE_ACTIVITY", "RAILING", "Railing", 7),
+        new SeedItem("BRIDGE_ACTIVITY", "WEARING_COAT", "Wearing Coat", 8),
+        new SeedItem("BRIDGE_ACTIVITY", "RETURNS", "Returns", 9),
+        new SeedItem("BRIDGE_ACTIVITY", "APPROACH_ROAD", "Approach Road", 10),
+        new SeedItem("BRIDGE_ACTIVITY", "REPAIR_TO_BRIDGE", "Repair to Bridge", 11)
     );
 
     @Bean
